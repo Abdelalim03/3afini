@@ -17,7 +17,7 @@ const emergencyRouter = require('./routes/emergency')
 let protectionRouter=require('./routes/protectionCivil')
 const hospitalRouter = require('./routes/Hospital')
 
-const recordingRouter = require('./routes/recordingRouter');
+const recordingRouter = require('./routes/recording');
 
 
 
