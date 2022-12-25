@@ -20,9 +20,9 @@ router
 })
 
 
-.get('/getOne',async (req,res)=>{
+.get('/getOne/:id',async (req,res)=>{
     try{
-        let tab = await Emergency.findOne({_id:req.body._id}).populate('patient').populate('recording')
+        let tab = await Emergency.findOne({_id:req.params.id}).populate('patient').populate('recording')
 
         res.status(200).json(tab)
 
@@ -33,10 +33,10 @@ router
 })
 
 
-.put('/check',async(req,res)=>{
+.put('/check/:id',async(req,res)=>{
     try{
-        let tab = await Emergency.updateOne({_id:req.body._id}, updateOne({_id:req.body._id} ,{$set:{checked:true}} , {upsert:true} ))
-        res.status(200).json(tab)
+        let emergency = await Emergency.findByIdAndUpdate(req.params.id, {$set:{checked:true}})
+        res.status(200).json({success:true,message:"emergency is checked"})
 
     }catch (err)
     {

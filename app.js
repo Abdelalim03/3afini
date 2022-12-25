@@ -7,10 +7,12 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const { connectDb } = require('./config/db');
 require('dotenv').config({ path: '.env' });
-
+const cors = require('cors');
 var app = express();
+
+app.use(cors());
 connectDb();
-console.log(process.env.MONGO_URI);
+
 const patientRouter = require('./routes/patient')
 const doctorRouter = require('./routes/doctor')
 const emergencyRouter = require('./routes/emergency')

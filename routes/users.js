@@ -96,7 +96,7 @@ router
 
     } else {
 
-      const {address} =req.body;
+      const {address,bloodGroup} =req.body;
       Patient.findOne({email:email}).then(patient=>{
         if (patient){
           res.status(400).json({success:false,message:"Email already exists"})
@@ -116,7 +116,7 @@ router
         }
       })
       const patient = Patient({
-        firstname,email, lastname, password, birthdate, phone,address
+        firstname,email, lastname, password, birthdate, phone,address,bloodGroup
       });
     }
   });

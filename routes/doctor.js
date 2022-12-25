@@ -4,29 +4,38 @@ var Doctor = require('../models/Doctor')
 
 router
 
-
-.get('/getone', async (req, res) =>{
+.get('/getAll',async (req,res)=>{
   try{
-       var tab =await  Doctor.find({_id:req.body._id}) ; 
-       res.status(200).json(tab) ;
+    var doctors =await  Doctor.find({confirmed:true}) ; 
+    res.status(200).json(doctors) ;
+
+}catch (err)
+{
+ res.status(400).json("error in getting Doctors") ;
+}
+})
+.get('/getone/:id', async (req, res) =>{
+  try{
+       var doctor =await  Doctor.findById(req.params.id) ; 
+       res.status(200).json(doctor) ;
 
   }catch (err)
   {
-    res.status(400).json("error in getting Patients") ;
+    res.status(400).json("error in getting Doctors") ;
   }
 })
 
 
 
 
-.put('/confirm', async (req, res) =>{
+.put('/confirm/:id', async (req, res) =>{
     try{
-         var tab =await  Doctor.updateOne({_id:req.body._id} ,{$set:{confirmed:true}} , {upsert:true} ) ; 
+         var tab =await  Doctor.findByIdAndUpdate(req.params.id ,{$set:{confirmed:true}}  ) ; 
          res.status(200).json(tab) ;
 
     }catch (err)
     {
-      res.status(400).json("error in confirm Patient") ;
+      res.status(400).json("error in confirm Doctor") ;
     }
 })
 
@@ -39,7 +48,7 @@ router
 
   }catch (err)
   {
-    res.status(400).json("error in getting Patients") ;
+    res.status(400).json("error in getting Doctors") ;
   }
 });
 

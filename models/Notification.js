@@ -7,7 +7,7 @@ const notificatoinSchema = mongoose.Schema({
         ref:'Patient',
     },
     status:{
-        type:Boolean,
+        type:String,
         required:[true,"You should enter your status"],
     }
 

@@ -40,7 +40,7 @@ const patientSchema = mongoose.Schema({
         type:Boolean,
         default:false
     },
-    bloody_group:{
+    bloodGroup:{
         type:String,
         enum:["AB+","AB-","A+","A-","B+","B-","O+","O-"]
     }

@@ -1,7 +1,8 @@
 var express = require('express');
 const Patient = require('../models/Patient');
 var router = express.Router();
-var ProtectionCivil = require('../models/ProtectionCivil')
+var ProtectionCivil = require('../models/ProtectionCivil');
+const Emergency = require('../models/Emergency');
 
 function sendMail(resiver , subject , text ){
     var nodemailer = require('nodemailer');
@@ -52,9 +53,9 @@ var rad = function(x) {
 router
 
 
-.get('/getOne',async (req,res)=>{
+.get('/getOne/:id',async (req,res)=>{
     try{
-        const Protection = await ProtectionCivil.findOne({_id:req.body._id})
+        const Protection = await ProtectionCivil.findById(req.params.id)
         res.status(200).json(Protection)
     }catch(err)
     {
@@ -62,34 +63,69 @@ router
     }
     
 })
-.get('/getNear', async (req, res) =>{
+
+
+.post('/add',(req,res)=>{
+  try{
+    const pro = new ProtectionCivil({
+      location:{
+        "type" : "Point",
+        "coordinates" : [
+          100,
+          200
+        ]
+      },
+    email:"ka_boukef@esi.dz",
+    phone:"0558684688",
+    })
+    pro.save() ; 
+    res.status(200).json(pro)
+  }
+  catch(err)
+  {
+    res.status(400).json("error in ")
+  }
+})
+
+.post('/sendMail/:id',async(req,res)=>{
+try {
+  let  protect =await ProtectionCivil.findById(req.params.id)
+  let {location} = req.body
+
+  sendMail(
+    protect.email ,
+    "Emergency Case ",
+    "You have an emergency case in the follow location : "+"http://www.google.com/maps/place/"+location.coordinates[0]+","+location.coordinates[1]//+emergency.location
+  )
+  res.status(200).json({sucess:true,message:"the email is sent succefuly"})
+  
+} catch (error) {
+  res.status(400).json({sucess:false,message:"the email dosn t send"})
+
+}
+  
+
+})
+.get('/getNear/:id', async (req, res) =>{
     let i = 0 ;
-    
     //************************** */
 
     //********************************* */
     try{
-        let point =[-150,35]
+      let emergency = await Emergency.findById(req.params.id)
 
        // let emergency = await emergency.find({_id:req.body._id})
 
-        let tabProtection =await  ProtectionCivil.find(); 
+        let tabProtection =await  ProtectionCivil.find({}); 
        let  tabDistance = tabProtection.map((elem)=>{
-            return ({ _id:elem._id , distance:getDistance(elem.location.coordinates /*,Emergency.location*//*,point*/ ,point ) })
+            return ({ _id:elem._id , distance:getDistance(elem.location.coordinates /*,Emergency.location*//*,point*/ ,emergency.location.coordinates ) })
         })
         tabDistance.sort(function(a, b){return a.distance - b.distance});        
         let protect = tabProtection.find((protect=>protect.id.toString()==tabDistance[0]._id.toString()))
-
-        console.log(protect);
-        res.status(200).json(tabDistance[0]) ;
+        res.status(200).json(protect) ;
         
         /*  Send Email   */ 
-        sendMail(
-            protect.email ,
-           //"ks_sellami@esi.dz",
-            "Emergency Case ",
-            "You have an emergency case in the follow location : "+"http://www.google.com/maps/place/"+point[0]+","+point[1]//+emergency.location
-          )
+       
         //mazal nditecti idha hospitale 9adr ytriti les cas wla aha 
 
     }catch (err)

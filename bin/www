@@ -7,7 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('3afini:server');
 var http = require('http');
-
+const { Server } = require('socket.io');
 /**
  * Get port from environment and store in Express.
  */
@@ -24,7 +24,23 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
+io.on("connection", (socket) => {
+  console.log(`User Connected: ${socket.id}`);
 
+  socket.on("join_room", (data) => {
+    socket.join(data);
+  });
+
+  socket.on("send_message", (data) => {
+    socket.to(data.room).emit("receive_message", data);
+  });
+});
 server.listen(port,()=>{
   console.log(`App running on port ${app.get('port')}`);
 });

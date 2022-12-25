@@ -64,11 +64,13 @@ router
 
      
   })
-.put("/acceptEmergency",async(req,res,next)=>{
+.put("/acceptEmergency/:id",async(req,res,next)=>{
+  // , {upsert:true}
     try{
-        const resp =await  Hospital.findByIdAndUpdate({_id:req.body._id} ,[{$set:{acceptEmrgencies:{$eq:[false,"$acceptEmrgencies"]}}}] , {upsert:true} ) ; 
-
-        res.status(200).json({success:true,message:"Hospitale changed status"}) ;
+        const resp =await  Hospital.findByIdAndUpdate(req.params.id ,[{$set:{acceptEmrgencies:{$eq:[false,"$acceptEmrgencies"]}}}]  ) ; 
+        if (resp)
+        res.status(200).json({success:true,message:"Hospital changed status"}) ;
+        else res.status(404).json({success:false,message:"Hospital doesn't exist"}) ;
 
    }catch (err)
    {

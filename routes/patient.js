@@ -5,11 +5,20 @@ var Patient = require('../models/Patient')
 
 
 router
+.get('/getAll',async (req,res)=>{
+  try{
+    var patients =await  Patient.find({confirmed:true}) ; 
+    res.status(200).json(patients) ;
 
-.get('/getone', async (req, res) =>{
+}catch (err)
+{
+ res.status(400).json("error in getting Doctors") ;
+}
+})
+.get('/getone/:id', async (req, res) =>{
     try{
-         var tab =await  Patient.find({_id:req.body._id}) ; 
-         res.status(200).json(tab) ;
+         let patient =await  Patient.findById(req.params.id) ; 
+         res.status(200).json(patient) ;
 
     }catch (err)
     {
@@ -18,10 +27,10 @@ router
 })
 
 
-.put('/confirm', async (req, res) =>{
+.put('/confirm/:id', async (req, res) =>{
     try{
         
-         var tab =await  Patient.updateOne({_id:req.body._id} ,{$set:{confirm:true}} , {upsert:true} ) ; 
+         var tab =await  Patient.findByIdAndUpdate(req.params.id ,{$set:{confirmed:true}} ) ; 
          res.status(200).json(tab) ;
 
     }catch (err)
