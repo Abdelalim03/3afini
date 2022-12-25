@@ -13,14 +13,13 @@ router
     const { email, password, doctor } = req.body;
     if (doctor) {
       try {
-        let doctor=await Doctor.findOne({email});
+        let doctor=await Doctor.findOne({email}).select('+password');
         if (doctor){
           const compare = await bcrypt.compare(password, doctor.password);
           
           if (!compare) {
             return res.status(404).json({success:false,message:"Invalid User or Password"});
           }
-          console.log(compare);
           const token = jwt.sign(
             { userId: doctor.id, email: doctor.email },
             process.env.SECRET_KEY,
@@ -40,7 +39,7 @@ router
       
     } else {
       try {
-        let patient=await Patient.findOne({email});
+        let patient=await Patient.findOne({email}).select('+password');
         if (patient){
           const compare = await bcrypt.compare(password, patient.password);
           
@@ -70,7 +69,7 @@ router
 
       if (doctor) {
       const { specialities } = req.body;
-      Doctor.find({email:email}).then(doctor=>{
+      Doctor.findOne({email:email}).then(doctor=>{
         if (doctor){
           res.status(400).json({success:false,message:"Email already exists"})
         }else{
@@ -98,7 +97,7 @@ router
     } else {
 
       const {address} =req.body;
-      Patient.find({email:email}).then(patient=>{
+      Patient.findOne({email:email}).then(patient=>{
         if (patient){
           res.status(400).json({success:false,message:"Email already exists"})
         }else{

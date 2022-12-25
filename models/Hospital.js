@@ -1,15 +1,26 @@
 const mongoose = require('mongoose');
-
+const bcrypt = require('bcrypt');
 
 const hospitalSchema = mongoose.Schema({
     name:{
         type:String,
         required:[true,"You should enter the name of your hospital"],
     },
-    location:{
-        type:pointSchema,
-        required:[true,"You should enter your location"],
+    location: {
+        type: {
+          type: String, 
+          enum: ['Point'], 
+          required: true
+        },
+        coordinates: {
+          type: [Number],
+          required: true
+        }
     },
+    /*location:{
+        type:Point,
+        required:[true,"You should enter your location"],
+    },*/
     acceptEmrgencies:{
         type:Boolean,
         default:true,
@@ -35,7 +46,16 @@ const hospitalSchema = mongoose.Schema({
 
 
 
-
+hospitalSchema.pre(
+    'save',
+    async function(next) {
+      const user = this;
+      const hash = await bcrypt.hash(this.password, 10);
+      
+      this.password = hash;
+      next();
+    }
+  );
 
 
 

@@ -2,11 +2,22 @@ const mongoose = require('mongoose');
 const pointSchema = require('./point');
 
 const recordingSchema = mongoose.Schema({
-    location:{
-        type:pointSchema,
+    dangerous:{
+        type:String,
         enum:["low","medium","high"],
         required:[true,"You should enter the dengerous"],
 
+    },
+    location: {
+        type: {
+          type: String, 
+          enum: ['Point'], 
+          required: true
+        },
+        coordinates: {
+          type: [Number],
+          required: true
+        }
     },
     photo:{ // id of recording
         type:String,

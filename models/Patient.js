@@ -33,6 +33,10 @@ const patientSchema = mongoose.Schema({
     address:{
         type:String,
         required:[true,"You should enter your address"],
+    },
+    confirm :{
+        type:Boolean , 
+        default:false 
     }
     ,confirmed:{
         type:Boolean,
@@ -56,14 +60,14 @@ patientSchema.pre(
     }
   );
 
-  patientSchema.methods.isValidPassword = async function(password) {
-    const user = this;
-    console.log(password, user.password);
+//   patientSchema.methods.isValidPassword = async function(password) {
+//     const user = this;
+//     console.log(password, user.password);
 
-    const compare = await bcrypt.compare(password, user.password);
+//     const compare = await bcrypt.compare(password, user.password);
   
-    return compare;
-  }
+//     return compare;
+//   }
 
 
 //   patientSchema.method('isValidPassword',async function(password) {

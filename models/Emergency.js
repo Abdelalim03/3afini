@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const EmergencySchema = mongoose.Schema({
     Dangerous:{
         type:String,
-        enum:["low","midium","high"],
+        enum:["low","medium","high"],
         required:[true,"You should enter the dengerous"],
 
     },
