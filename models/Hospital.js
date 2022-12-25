@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const pointSchema = require('./point');
 
 
 const hospitalSchema = mongoose.Schema({
@@ -7,10 +6,21 @@ const hospitalSchema = mongoose.Schema({
         type:String,
         required:[true,"You should enter the name of your hospital"],
     },
-    location:{
-        type:pointSchema,
-        required:[true,"You should enter your location"],
+    location: {
+        type: {
+          type: String, 
+          enum: ['Point'], 
+          required: true
+        },
+        coordinates: {
+          type: [Number],
+          required: true
+        }
     },
+    /*location:{
+        type:Point,
+        required:[true,"You should enter your location"],
+    },*/
     acceptEmrgencies:{
         type:Boolean,
         default:true,

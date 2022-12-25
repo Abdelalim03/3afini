@@ -7,6 +7,5 @@ router
 .get(function(req, res, next) {
   res.send('respond with a resource');
 })
-.post(function(req,res,))
 
 module.exports = router;

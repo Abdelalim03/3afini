@@ -33,7 +33,11 @@ const doctorSchema = mongoose.Schema({
         type:String,
         default:"General Doctor",
         unique:true
-    }]
+    }],
+    confirm :{
+        type:Boolean , 
+        default:false 
+    }
 
 },{
     timeStamps:true

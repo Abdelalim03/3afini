@@ -1,12 +1,18 @@
 const mongoose = require('mongoose');
-const pointSchema = require('./point');
 
 
 const ProtectionCivilSchema = mongoose.Schema({
    
-    location:{
-        type:pointSchema,
-        required:[true,"You should enter your location"],
+    location: {
+        type: {
+          type: String, 
+          enum: ['Point'], 
+          required: true
+        },
+        coordinates: {
+          type: [Number],
+          required: true
+        }
     },
     email:{
         type:String,
