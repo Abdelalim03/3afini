@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 
 const patientSchema = mongoose.Schema({
@@ -33,6 +34,10 @@ const patientSchema = mongoose.Schema({
         type:String,
         required:[true,"You should enter your address"],
     }
+    ,confirmed:{
+        type:Boolean,
+        default:false
+    }
 
 },{
     timeStamps:true
@@ -40,8 +45,34 @@ const patientSchema = mongoose.Schema({
 
 
 
+patientSchema.pre(
+    'save',
+    async function(next) {
+      const user = this;
+      const hash = await bcrypt.hash(this.password, 10);
+      
+      this.password = hash;
+      next();
+    }
+  );
+
+  patientSchema.methods.isValidPassword = async function(password) {
+    const user = this;
+    console.log(password, user.password);
+
+    const compare = await bcrypt.compare(password, user.password);
+  
+    return compare;
+  }
 
 
+//   patientSchema.method('isValidPassword',async function(password) {
+//     const user = this;
+//     console.log(password, user.password);
+//     const compare = await bcrypt.compare(password, user.password);
+  
+//     return compare;
+//   })
 
+ module.exports= mongoose.model('Patient',patientSchema);
 
-module.exports = mongoose.model('Patient',patientSchema);

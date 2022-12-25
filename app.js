@@ -6,12 +6,13 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const { connectDb } = require('./config/db');
+require('dotenv').config({ path: '.env' });
 
 var app = express();
+connectDb();
+console.log(process.env.MONGO_URI);
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -32,10 +33,9 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
+  console.log(err);
   res.status(err.status || 500);
-  res.render('error');
+  res.json({'error':err});
 });
 
 module.exports = app;

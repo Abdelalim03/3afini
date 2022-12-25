@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const pointSchema = require('./point');
 
 
 const hospitalSchema = mongoose.Schema({

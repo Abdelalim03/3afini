@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const bcrypt = require('bcrypt');
 
 const doctorSchema = mongoose.Schema({
     firstname:{
@@ -32,17 +32,34 @@ const doctorSchema = mongoose.Schema({
     specialities:[{
         type:String,
         default:"General Doctor",
-        unique:true
-    }]
+    }],
+    confirmed:{
+        type:Boolean,
+        default:false
+    }
 
 },{
     timeStamps:true
 })
 
 
+doctorSchema.pre(
+    'save',
+    async function(next) {
+      const user = this;
+      const hash = await bcrypt.hash(this.password, 10);
+  
+      this.password = hash;
+      next();
+    }
+  );
 
-
-
+doctorSchema.methods.isValidPassword = async function(password) {
+    const user = this;
+    const compare = await bcrypt.compare(password, user.password);
+  
+    return compare;
+  }
 
 
 module.exports = mongoose.model('Doctor',doctorSchema);
