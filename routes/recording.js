@@ -64,18 +64,19 @@ let deng =(tempurature,blodpressure,glycemie,heartbeat,fast)=>{
     const index = arr.indexOf(max);
 
     switch (index) {
-        case value:
-            
+        case 0:
+                return "low"
             break;
-    
+        case 1:
+            return "medium"
+            break;
+         case 2:
+            return "high"
+            break;
         default:
+            return "good"
             break;
-    }
-
-
-
-
-
+}
 }
 
 
@@ -87,17 +88,24 @@ router
         console.log(req.body);
          let rec =new  Recording(req.body) ; 
          rec.save();
-
-        let em = new Emergency({
-            Dangerous:deng(rec.tempurature,rec.blodpressure,rec.glycemie,rec.heartbeat,rec.fast),
-            recording:rec._id,
-            checked:false,
-            fast:rec.fast,
-            location:rec.location ,
-            patient:rec.patient,
-        })
-        em.save()
-         res.status(200).json(rec) ;
+        let deng = deng(rec.tempurature,rec.blodpressure,rec.glycemie,rec.heartbeat,rec.fast)
+        if(deng==good)
+        {
+            res.status(200).json("you have a good health") ;  
+        }
+        else{
+            let em = new Emergency({
+                Dangerous:deng(rec.tempurature,rec.blodpressure,rec.glycemie,rec.heartbeat,rec.fast),
+                recording:rec._id,
+                checked:false,
+                fast:rec.fast,
+                location:rec.location ,
+                patient:rec.patient,
+            })
+            em.save()
+            res.status(200).json("The emergency will call you") ;
+        }
+        
     }catch (err)
     {
       res.status(400).json("error in posting recording ") ;
