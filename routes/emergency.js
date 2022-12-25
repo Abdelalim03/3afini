@@ -4,11 +4,6 @@ const Emergency = require('../models/Emergency' )
 
 
 router
-
-
-
-
-
 .get('/getNotChecked', async (req, res)=> {
     try{
         let tab = await Emergency.find({checked:false}).populate('patient').populate('recording')

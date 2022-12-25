@@ -6,7 +6,6 @@ const patientSchema = mongoose.Schema({
     firstname:{
         type:String,
         required:[true,"You should enter your firstname"],
-
     },
     lastname:{
         type:String,

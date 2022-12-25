@@ -19,6 +19,10 @@ const ProtectionCivilSchema = mongoose.Schema({
         required:[true,"You should enter your email"],
         unique:true
     },
+    address:{
+        type:String,
+        required:[true,"You should enter your address"],
+    },
     phone:{
         type:String,
         required:[true,"You should enter your phone"],

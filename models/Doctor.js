@@ -30,10 +30,6 @@ const doctorSchema = mongoose.Schema({
         required:[true,"You should enter your phone"],
         unique:true
     },
-    specialities:[{
-        type:String,
-        default:"General Doctor",
-    }],
     confirmed:{
         type:Boolean,
         default:false

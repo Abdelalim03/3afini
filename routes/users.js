@@ -6,7 +6,7 @@ const Patient = require('../models/Patient');
 const bcrypt = require('bcrypt');
 /* GET users listing. */
 router
-  .get(function (req, res, next) {
+  .get('/',function (req, res, next) {
     res.send("respond with a resource");
   })
   .post("/login", async function (req, res, next) {
@@ -68,13 +68,12 @@ router
       req.body;
 
       if (doctor) {
-      const { specialities } = req.body;
       Doctor.findOne({email:email}).then(doctor=>{
         if (doctor){
           res.status(400).json({success:false,message:"Email already exists"})
         }else{
           const doctor = Doctor({
-            firstname,email, lastname, password, birthdate, phone,specialities
+            firstname,email, lastname, password, birthdate, phone
           });
     
           doctor.save().then(doctor=>{
@@ -103,7 +102,7 @@ router
         }else{
           patient.save().then(patient=>{
             const  token = jwt.sign(
-                { userId: patient.id, email: patient.email },
+                { userId: patient.id, role: "patient" },
                 process.env.SECRET_KEY,
                 { expiresIn: "7d" }
               );

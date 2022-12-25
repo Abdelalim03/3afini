@@ -86,7 +86,7 @@ router
         if(s=="good")
         {
 
-            res.status(200).json("you have a good health") ;  
+            res.status(200).json({status:'GOOD',message:"you have a good health"}) ;  
         }
         else{
             let em = new Emergency({
@@ -98,7 +98,8 @@ router
                 patient:rec.patient,
             })
             em.save();
-            res.status(200).json("The emergency will call you") ;
+            global.io.emit("send_notification",em);
+            res.status(200).json({status:'CRITICAL',message:"The emergency will call you"}) ;
         }
         
     }catch (err)
