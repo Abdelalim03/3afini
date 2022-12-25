@@ -33,10 +33,6 @@ const patientSchema = mongoose.Schema({
     address:{
         type:String,
         required:[true,"You should enter your address"],
-    },
-    confirm :{
-        type:Boolean , 
-        default:false 
     }
     ,confirmed:{
         type:Boolean,

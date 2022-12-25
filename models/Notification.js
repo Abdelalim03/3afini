@@ -8,7 +8,7 @@ const notificatoinSchema = mongoose.Schema({
     },
     status:{
         type:Boolean,
-        required:[true,"You should enter your firstname"],
+        required:[true,"You should enter your status"],
     }
 
 },{
