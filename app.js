@@ -17,7 +17,7 @@ const emergencyRouter = require('./routes/emergency')
 let protectionRouter=require('./routes/protectionCivil')
 const hospitalRouter = require('./routes/Hospital')
 
- 
+const recordingRouter = require('./routes/recordingRouter');
 
 
 
@@ -35,6 +35,7 @@ app.use('/patient',patientRouter)
 app.use('/doctor',doctorRouter)
 app.use('/emergency',emergencyRouter)
 app.use('/protection',protectionRouter)
+app.use('/recording',recordingRouter)
 app.use('/hospital',hospitalRouter)
 
 // catch 404 and forward to error handler

@@ -3,6 +3,33 @@ const Patient = require('../models/Patient');
 var router = express.Router();
 var ProtectionCivil = require('../models/ProtectionCivil')
 
+function sendMail(resiver , subject , text ){
+    var nodemailer = require('nodemailer');
+  
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      secure : true , 
+      auth: {
+        user: 'esiSwitch@gmail.com',
+        pass: 'rhdvszlfqoeyqevg'
+      }
+    });
+    var mailOptions = {
+      from: 'esiSwitch@gmail.com',
+      to: resiver,
+      subject: subject,
+      text: text
+    };
+    
+
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+  }
 
 
 var rad = function(x) {
@@ -39,17 +66,30 @@ router
     let i = 0 ;
     
     //************************** */
-   // let point =[-150,35]
 
     //********************************* */
     try{
-       // let Recording = await Recording.find({_id:req.body._id})
+        let point =[-150,35]
+
+       // let emergency = await emergency.find({_id:req.body._id})
+
         let tabProtection =await  ProtectionCivil.find(); 
        let  tabDistance = tabProtection.map((elem)=>{
-            return ({ _id:elem.id , distance:getDistance(elem.location.coordinates /*,Recording.location*//*,point*/ ) })
+            return ({ _id:elem._id , distance:getDistance(elem.location.coordinates /*,Emergency.location*//*,point*/ ,point ) })
         })
-        tabDistance.sort(function(a, b){return a.distance - b.distance});
+        tabDistance.sort(function(a, b){return a.distance - b.distance});        
+        let protect = tabProtection.find((protect=>protect.id.toString()==tabDistance[0]._id.toString()))
+
+        console.log(protect);
         res.status(200).json(tabDistance[0]) ;
+        
+        /*  Send Email   */ 
+        sendMail(
+            protect.email ,
+           //"ks_sellami@esi.dz",
+            "Emergency Case ",
+            "You have an emergency case in the follow location : "+"http://www.google.com/maps/place/"+point[0]+","+point[1]//+emergency.location
+          )
         //mazal nditecti idha hospitale 9adr ytriti les cas wla aha 
 
     }catch (err)
