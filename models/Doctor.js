@@ -22,7 +22,8 @@ const doctorSchema = mongoose.Schema({
     },
     password:{
         type:String,
-        required:[true,"You should enter your password"]
+        required:[true,"You should enter your password"],
+        select:false
     },
     phone:{
         type:String,
@@ -34,7 +35,7 @@ const doctorSchema = mongoose.Schema({
         default:"General Doctor",
         unique:true
     }],
-    confirm :{
+    confirmed :{
         type:Boolean , 
         default:false 
     }

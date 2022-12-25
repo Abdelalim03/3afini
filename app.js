@@ -9,6 +9,7 @@ var patientRouter = require('./routes/patient')
 var doctorRouter = require('./routes/doctor')
 var emergencyRouter = require('./routes/emergency')
 let protectionRouter=require('./routes/protectionCivil')
+let recordingRouter =require('./routes/recording')
 
 let Hospital = require('./models/Hospital')
 let ProtectionCivil=require('./models/ProtectionCivil')
@@ -44,6 +45,7 @@ app.use('/patient',patientRouter)
 app.use('/doctor',doctorRouter)
 app.use('/emergency',emergencyRouter)
 app.use('/protection',protectionRouter)
+app.use('/recording',recordingRouter)
 
 app.post('/s', (req,res)=>{
    try{
