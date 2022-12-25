@@ -7,9 +7,11 @@ router
 
 
 
+
+
 .get('/getNotChecked', async (req, res)=> {
     try{
-        let tab = await Emergency.find({checked:false}) 
+        let tab = await Emergency.find({checked:false}).populate('patient').populate('recording')
         res.status(200).json(tab)
 
     }catch(err){
@@ -17,9 +19,11 @@ router
     }
 })
 
+
 .get('/getOne',async (req,res)=>{
     try{
-        let tab = await Emergency.findOne({_id:req.body._id})
+        let tab = await Emergency.findOne({_id:req.body._id}).populate('patient').populate('recording')
+
         res.status(200).json(tab)
 
     }catch (err)

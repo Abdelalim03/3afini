@@ -1,13 +1,6 @@
 const mongoose = require('mongoose');
-const pointSchema = require('./point');
 
 const recordingSchema = mongoose.Schema({
-    dangerous:{
-        type:String,
-        enum:["low","medium","high"],
-        required:[true,"You should enter the dengerous"],
-
-    },
     location: {
         type: {
           type: String, 
@@ -19,14 +12,32 @@ const recordingSchema = mongoose.Schema({
           required: true
         }
     },
-    photo:{ // id of recording
-        type:String,
-        required:true
+    tempurature : {
+        type:Number,
+    },
+    blodpressure :{
+        SYSTOLIC : {
+            type:Number 
+        },
+        DIASTOLIC : {
+            type:Number , 
+        }
+    },
+    glycemie :{
+        type:Number
+    },
+    heartbeat : {
+        type : Number 
+    },
+    fast :{
+        type :Boolean,
+        required:true 
     },
     patient:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Patient',
     }
+    
 
 },{
     timeStamps:true

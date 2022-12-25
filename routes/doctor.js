@@ -21,7 +21,7 @@ router
 
 .put('/confirm', async (req, res) =>{
     try{
-         var tab =await  Doctor.updateOne({_id:req.body._id} ,{$set:{confirm:true}} , {upsert:true} ) ; 
+         var tab =await  Doctor.updateOne({_id:req.body._id} ,{$set:{confirmed:true}} , {upsert:true} ) ; 
          res.status(200).json(tab) ;
 
     }catch (err)
@@ -34,7 +34,7 @@ router
 
 .get('/nonConfirm', async (req, res) =>{
   try{
-       var tab =await  Doctor.find({confirm:false}) ; 
+       var tab =await  Doctor.find({confirmed:false}) ; 
        res.status(200).json(tab) ;
 
   }catch (err)

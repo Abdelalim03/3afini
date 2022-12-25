@@ -23,7 +23,9 @@ const patientSchema = mongoose.Schema({
     },
     password:{
         type:String,
-        required:[true,"You should enter your password"]
+        required:[true,"You should enter your password"],
+        select:false
+
     },
     phone:{
         type:String,
@@ -33,14 +35,14 @@ const patientSchema = mongoose.Schema({
     address:{
         type:String,
         required:[true,"You should enter your address"],
-    },
-    confirm :{
-        type:Boolean , 
-        default:false 
     }
     ,confirmed:{
         type:Boolean,
         default:false
+    },
+    bloody_group:{
+        type:String,
+        enum:["AB+","AB-","A+","A-","B+","B-","O+","O-"]
     }
 
 },{

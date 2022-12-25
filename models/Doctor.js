@@ -22,7 +22,8 @@ const doctorSchema = mongoose.Schema({
     },
     password:{
         type:String,
-        required:[true,"You should enter your password"]
+        required:[true,"You should enter your password"],
+        select:false
     },
     phone:{
         type:String,
@@ -33,9 +34,15 @@ const doctorSchema = mongoose.Schema({
         type:String,
         default:"General Doctor",
     }],
+<<<<<<< HEAD
     confirmed:{
         type:Boolean,
         default:false
+=======
+    confirmed :{
+        type:Boolean , 
+        default:false 
+>>>>>>> dfe3c5cb527e3766e192265ccb840897e49c9e9b
     }
 
 },{

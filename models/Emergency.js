@@ -6,7 +6,6 @@ const EmergencySchema = mongoose.Schema({
         type:String,
         enum:["low","medium","high"],
         required:[true,"You should enter the dengerous"],
-
     },
     recording:{ // id of recording
         type:mongoose.Schema.Types.ObjectId,
@@ -20,6 +19,22 @@ const EmergencySchema = mongoose.Schema({
         type:Boolean,
         required:[true,"You should enter the type of emergency "],
     },
+    location: {
+        type: {
+          type: String, 
+          enum: ['Point'], 
+          required: true
+        },
+        coordinates: {
+          type: [Number],
+          required: true
+        }
+    },
+    patient:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Patient',
+    }
+
 
 },{
     timeStamps:true
