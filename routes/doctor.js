@@ -30,7 +30,8 @@ router
 
 .put('/confirm/:id', async (req, res) =>{
     try{
-         var tab =await  Doctor.findByIdAndUpdate(req.params.id ,{$set:{confirmed:true}}  ) ; 
+        console.log(req.params.id);
+         var tab =await  Doctor.findByIdAndUpdate(req.params.id ,{$set:{confirmed:true}}) ; 
          res.status(200).json(tab) ;
 
     }catch (err)
@@ -41,15 +42,6 @@ router
 
 
 
-.get('/nonConfirm', async (req, res) =>{
-  try{
-       var tab =await  Doctor.find({confirmed:false}) ; 
-       res.status(200).json(tab) ;
 
-  }catch (err)
-  {
-    res.status(400).json("error in getting Doctors") ;
-  }
-});
 
 module.exports = router;

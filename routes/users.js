@@ -9,6 +9,18 @@ router
   .get('/',function (req, res, next) {
     res.send("respond with a resource");
   })
+  .get('/nonConfirm', async (req, res) =>{
+    try{
+         let patients = await  Patient.find({confirmed:false}) ; 
+         let doctors = await  Doctor.find({confirmed:false}) ; 
+         
+         res.status(200).json({patients:patients,doctors:doctors}) ;
+
+    }catch (err)
+    {
+      res.status(400).json("error in getting Patients") ;
+    }
+})
   .post("/login", async function (req, res, next) {
     const { email, password, doctor } = req.body;
     if (doctor) {
@@ -100,6 +112,9 @@ router
         if (patient){
           res.status(400).json({success:false,message:"Email already exists"})
         }else{
+          const patient = Patient({
+            firstname,email, lastname, password, birthdate, phone,address,bloodGroup
+          });
           patient.save().then(patient=>{
             const  token = jwt.sign(
                 { userId: patient.id, role: "patient" },

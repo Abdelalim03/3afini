@@ -8,6 +8,7 @@ const bcrypt = require("bcrypt");
 router
   .post("/login", async function (req, res, next) {
     const { email, password } = req.body;
+    console.log(email,password);
     try {
       let hospital = await Hospital.findOne({ email }).select("+password");
       if (hospital) {
@@ -42,9 +43,7 @@ router
     }
   })
   .post("/signup", function (req, res, next) {
-    console.log("fff");
     const { name, email, password, phone, location } = req.body;
-    console.log(name);
 
     Hospital.findOne({ email }).then((hospital) => {
       if (hospital) {
@@ -66,7 +65,7 @@ router
             const token = jwt.sign(
               { userId: doctor.id, email: doctor.email },
               process.env.SECRET_KEY,
-              { expiresIn: "30d" }
+              { expiresIn: "7d" }
             );
             Hospital.findById(hospital.id)
               .select("-password")

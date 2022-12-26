@@ -39,15 +39,6 @@ router
     }
 })
 
-.get('/nonConfirm', async (req, res) =>{
-    try{
-         var tab =await  Patient.find({confirm:false}) ; 
-         res.status(200).json(tab) ;
 
-    }catch (err)
-    {
-      res.status(400).json("error in getting Patients") ;
-    }
-});
 
 module.exports = router;

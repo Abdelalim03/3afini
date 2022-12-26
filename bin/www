@@ -64,7 +64,7 @@ io.on("connection", (socket) => {
   });
 
 });
-server.listen(port ,()=>{
+server.listen(port,"10.33.30.159" ,()=>{
   console.log(`App running on port ${app.get('port')}`);
 });
 server.on('error', onError);
