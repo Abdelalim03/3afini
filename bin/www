@@ -8,6 +8,7 @@ var app = require('../app');
 var debug = require('debug')('3afini:server');
 var http = require('http');
 const { Server } = require('socket.io');
+const Messages = require('../models/Messages');
 /**
  * Get port from environment and store in Express.
  */
@@ -37,8 +38,33 @@ io.on("connection", (socket) => {
   socket.on("send_notification", (data) => {
     socket.broadcast.emit("receive_notification", data);
   });
+
+  socket.on("joinRoom", async ({ room }) => {
+    let message = await Messages.findOne({room});
+    if (!message) {
+      message = new Messages({
+        room,
+        messages:[]
+      });
+    } 
+    socket.join(room);
+    io.to(room).emit("messages", message.messages);
+
+  });
+
+  socket.on("chatMessage", async ({msg,userId,room}) => {
+    let messages = await Messages.findByIdAndUpdate({room}, { $push: { messages: {message:msg,userId} } })
+
+    io.to(room).emit("message", {message:msg,userId});
+  });
+
+  // Runs when client disconnects
+  socket.on("disconnect", () => {
+      console.log("User Disconnected",socket.id);
+  });
+
 });
-server.listen(port,'10.33.30.159' ,()=>{
+server.listen(port ,()=>{
   console.log(`App running on port ${app.get('port')}`);
 });
 server.on('error', onError);

@@ -21,7 +21,7 @@ router
             return res.status(404).json({success:false,message:"Invalid User or Password"});
           }
           const token = jwt.sign(
-            { userId: doctor.id, email: doctor.email },
+            { userId: doctor.id, role: "doctor" },
             process.env.SECRET_KEY,
             { expiresIn: "7d" });
             doctor =await Doctor.findById(doctor.id).select('-password')
@@ -47,7 +47,7 @@ router
             return res.status(404).json({success:false,message:"Invalid User or Password"});
           }
           const token = jwt.sign(
-            { userId: patient.id, email: patient.email },
+            { userId: patient.id, role: "patient" },
             process.env.SECRET_KEY,
             { expiresIn: "7d" });
             patient =await Patient.findById(patient.id).select('-password')
@@ -78,7 +78,7 @@ router
     
           doctor.save().then(doctor=>{
             const token = jwt.sign(
-              { userId: doctor.id, email: doctor.email },
+              { userId: doctor.id, role: 'doctor' },
               process.env.SECRET_KEY,
               { expiresIn: "7d" }
             );
